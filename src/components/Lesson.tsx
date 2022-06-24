@@ -16,7 +16,7 @@ export function Lesson(props: LessonProps) {
   });
 
   return (
-    <a href="#">
+    <a href={props.slug}>
       <span className="text-gray-300">
         {availableDateFormatted}
       </span>
