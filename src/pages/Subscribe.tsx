@@ -2,8 +2,9 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 import { Logo } from "../components/Logo";
-import { useCreateSubscriberMutation } from "../graphql/generated";
+import { useCreateSubscriberMutation, useGetSubscriberByEmailQuery } from "../graphql/generated";
 import codeMockup from '../../src/assets/code-mockup.png'
+import { toast } from "react-toastify";
 
 
 export function Subscribe() {
@@ -16,14 +17,30 @@ export function Subscribe() {
   async function handleSubscribe(event: FormEvent) {
     event.preventDefault();
 
-    await createSubscriber({
+    if (name === '' || email === '') {
+      toast.error('Preencha todos os campos');
+      return;
+    }
+
+    createSubscriber({
       variables: {
         name,
         email
-      }
-    })
+      },
+      onError() {
+        toast.error('Ocorreu um erro inesperado, tente novamente.');
+        return;
+      },
 
-    navigate('/event');
+      onCompleted(data) {
+        console.log(data?.createSubscriber?.id);
+        if (data?.createSubscriber?.id) {
+          toast.success('Bem-vindo ao Ignite Lab!');
+
+          navigate('/event');
+        }
+      },
+    });
   }
 
   return (

@@ -5588,6 +5588,13 @@ export type GetLessonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetLessonsQuery = { __typename?: 'Query', lessons: Array<{ __typename?: 'Lesson', id: string, lessonType: LessonType, availableAt?: any | null, title: string, slug?: string | null }> };
 
+export type GetSubscriberByEmailQueryVariables = Exact<{
+  email?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetSubscriberByEmailQuery = { __typename?: 'Query', subscriber?: { __typename?: 'Subscriber', email: string } | null };
+
 
 export const CreateSubscriberDocument = gql`
     mutation CreateSubscriber($email: String!, $name: String!) {
@@ -5703,3 +5710,38 @@ export function useGetLessonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetLessonsQueryHookResult = ReturnType<typeof useGetLessonsQuery>;
 export type GetLessonsLazyQueryHookResult = ReturnType<typeof useGetLessonsLazyQuery>;
 export type GetLessonsQueryResult = Apollo.QueryResult<GetLessonsQuery, GetLessonsQueryVariables>;
+export const GetSubscriberByEmailDocument = gql`
+    query GetSubscriberByEmail($email: String) {
+  subscriber(where: {email: $email}) {
+    email
+  }
+}
+    `;
+
+/**
+ * __useGetSubscriberByEmailQuery__
+ *
+ * To run a query within a React component, call `useGetSubscriberByEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSubscriberByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSubscriberByEmailQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetSubscriberByEmailQuery(baseOptions?: Apollo.QueryHookOptions<GetSubscriberByEmailQuery, GetSubscriberByEmailQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSubscriberByEmailQuery, GetSubscriberByEmailQueryVariables>(GetSubscriberByEmailDocument, options);
+      }
+export function useGetSubscriberByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSubscriberByEmailQuery, GetSubscriberByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSubscriberByEmailQuery, GetSubscriberByEmailQueryVariables>(GetSubscriberByEmailDocument, options);
+        }
+export type GetSubscriberByEmailQueryHookResult = ReturnType<typeof useGetSubscriberByEmailQuery>;
+export type GetSubscriberByEmailLazyQueryHookResult = ReturnType<typeof useGetSubscriberByEmailLazyQuery>;
+export type GetSubscriberByEmailQueryResult = Apollo.QueryResult<GetSubscriberByEmailQuery, GetSubscriberByEmailQueryVariables>;
