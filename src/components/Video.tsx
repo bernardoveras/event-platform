@@ -3,6 +3,7 @@ import { DefaultUi, Player, Youtube } from "@vime/react";
 import { CaretRight, DiscordLogo, FileArrowDown, Lightning } from "phosphor-react";
 
 import '@vime/core/themes/default.css';
+import BounceLoader from "react-spinners/BounceLoader";
 
 const GET_LESSON_BY_SLUG_QUERY = gql`
 query GetLessonBySlug($slug: String) {
@@ -45,7 +46,10 @@ export function Video(props: VideoProps) {
 
   if (!data) {
     return <div className="flex-1 flex justify-center items-center">
-      <p>Carregando...</p>;
+      <BounceLoader
+        size={24}
+        color="#00875F"
+      />
     </div>
   }
 
